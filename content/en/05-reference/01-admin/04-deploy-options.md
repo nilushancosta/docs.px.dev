@@ -16,6 +16,7 @@ Pixie offers the following deploy options:
 - [Configure Pixie's memory usage](#configure-pixie-memory-usage)
 - [Set the data access mode](#setting-the-data-access-mode)
 - [Select metadata storage option](#select-metadata-storage-option)
+- [Set a PEM flag](#set-a-pem-flag)
 
 To see the full set of deploy options, install the [Pixie CLI](/installing-pixie/install-schemes/cli/) and run `px deploy --help`.
 
@@ -195,4 +196,20 @@ To deploy with Helm using the etcd operator, use the `--useEtcdOperator` flag.
 
 ```bash
 helm install pixie pixie-operator/pixie-operator-chart --set deployKey=<deploy-key-goes-here> --namespace pl --create-namespace --set pixie-chart.useEtcdOperator=true
+```
+
+## Set a PEM flag
+
+PEM flags are used to configure the [Pixie Edge Module](https://docs.px.dev/reference/architecture/#vizier-components), Pixie's data collector component. PEM flags are often used to enable beta features.
+
+For example, to enable `STIRLING_ENABLE_AMQP_TRACING` when deploying with the [Pixie CLI](/installing-pixie/install-schemes/cli/), use the `--pem_flags` flag:
+
+```bash
+px deploy --pem_flags="STIRLING_ENABLE_AMQP_TRACING=true"
+```
+
+To enable `STIRLING_ENABLE_AMQP_TRACING` when deploying with [Helm](/installing-pixie/install-schemes/helm/), use the `dataCollectorParams.customPEMFlags` field:
+
+```bash
+helm install pixie pixie-operator/pixie-operator-chart --set deployKey=<deploy-key-goes-here> --namespace pl --create-namespace --set dataCollectorParams.customPEMFlags.STIRLING_ENABLE_AMQP_TRACING=true
 ```
